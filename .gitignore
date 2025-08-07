@@ -1,0 +1,60 @@
+# ========================
+# 🌐 Node / Vite / React
+# ========================
+node_modules/
+dist/
+.vite/
+.env*
+*.local
+*.log
+
+# ========================
+# 📱 Capacitor / Android / iOS
+# ========================
+
+# Android
+android/.gradle/
+android/.idea/
+android/local.properties
+android/.cxx/
+android/build/
+android/app/build/
+
+# iOS
+ios/Pods/
+ios/build/
+ios/DerivedData/
+ios/*.xcworkspace
+ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+ios/.idea/
+
+# Capacitor / Cordova
+*.keystore
+*.jks
+
+# ========================
+# ⚙️ Terraform
+# ========================
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/terraform.tfstate*
+*.tfstate*
+crash.log
+
+# ========================
+# 🧠 System & IDE Files
+# ========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ========================
+# 🚫 OS-specific junk
+# ========================
+ehthumbs.db
+Icon?
+Desktop.ini
