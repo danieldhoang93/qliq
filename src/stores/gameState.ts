@@ -8,7 +8,7 @@ export const gameState = proxy<{
   totalDamage: number;
   damageEvents: DamageEvent[];
 }>({
-  userId: 'user123',
+  userId: '',
   totalDamage: 0,
   damageEvents: [],
 });

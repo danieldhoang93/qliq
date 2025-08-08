@@ -37,10 +37,14 @@ ios/.idea/
 # ⚙️ Terraform
 # ========================
 infra/.terraform/
-infra/.terraform.lock.hcl
-infra/terraform.tfstate*
 *.tfstate*
+*.tfvars
+.terraform.lock.hcl
 crash.log
+override.tf*
+*_override.tf*
+*.dump
+*.sql
 
 # ========================
 # 🧠 System & IDE Files
@@ -58,3 +62,4 @@ Thumbs.db
 ehthumbs.db
 Icon?
 Desktop.ini
+

@@ -23,29 +23,41 @@ const clients = new Map<string, WSClient>();
 const wss = new WebSocketServer({ port: WS_PORT });
 console.log(`✅ WebSocket server running on http://localhost:${WS_PORT}`);
 
+let connectionCount = 0;
+
 wss.on('connection', (socket) => {
   console.log('👋 New client connected');
+  connectionCount += 1;
+  const userId = `${connectionCount}`;
+  (socket as any).userId = userId;
+
   const clientId = uuidv4();
-  const client: WSClient = { id: clientId, socket, userId: '' };
+  const client: WSClient = { id: clientId, socket, userId };
   clients.set(clientId, client);
 
   socket.on('message', async (data) => {
     const msg = JSON.parse(data.toString()) as ClientMessage;
 
     if (msg.type === 'identify') {
-      client.userId = msg.userId;
+      client.userId = userId;
+
+      // Optionally echo it back
+      socket.send(JSON.stringify({
+        type: 'welcome',
+        userId: client.userId,
+      }));
+
       return;
     }
 
     if (msg.type === 'click') {
-      console.log({msg})
       await logClick(client.userId, msg.damageEvent.timestamp);
       for (const [id, otherClient] of clients) {
         if (id !== clientId && otherClient.socket.readyState === WebSocket.OPEN) {
           const serverMsg: ServerMessage = {
             type: 'damage',
             damageEvent: {
-              userId: msg.damageEvent.userId,
+              userId: client.userId,
               amount: msg.damageEvent.amount,
               timestamp: msg.damageEvent.timestamp,
               style: undefined,

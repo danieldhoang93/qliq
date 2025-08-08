@@ -2,6 +2,8 @@ import { gameState, incrementTotalDamage } from "@/stores/gameState";
 
 export const socket = new WebSocket('ws://localhost:8080');
 
+let userId: string | null = null;
+
 socket.onopen = () => {
   console.log('✅ WebSocket connected');
 };
@@ -11,14 +13,14 @@ socket.onmessage = (event) => {
 };
 
 socket.addEventListener('open', () => {
-  socket.send(JSON.stringify({ type: 'identify', userId: 'user123' }));
+  socket.send(JSON.stringify({ type: 'identify', userId }));
 });
 
 export const sendClick = (amount: number, style = 'default') => {
   socket.send(JSON.stringify({
     type: 'click',
     damageEvent: {
-      userId: 'user123',
+      userId: gameState.userId,
       timestamp: Date.now(),
       amount,
     style,
@@ -29,7 +31,13 @@ export const sendClick = (amount: number, style = 'default') => {
 socket.addEventListener('message', (event) => {
   const msg = JSON.parse(event.data);
 
-  if (msg.type === 'damage') {
+  if (msg.type === 'welcome') {
+    userId = msg.userId;
+    gameState.userId = msg.userId;
+    console.log(`👤 Welcome as: ${userId}`);
+  }
+
+  if (msg.type === 'damage' && userId) {
     // console.log(`💥 Damage broadcasted`, {msg});
 
     gameState.damageEvents.push({

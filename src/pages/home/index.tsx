@@ -1,5 +1,7 @@
+import { ChatWindow } from "@/components/chat/chat-window";
+import { MenuButton } from "@/components/layout/menu";
 import { gameState, onQliq, setInitialTotalDamage } from "@/stores/gameState";
-import { Button, Container, Text } from "@mantine/core";
+import { Button, Center, Container, Flex, Text } from "@mantine/core";
 import { useEffect } from "react";
 import { useSnapshot } from "valtio";
 
@@ -12,7 +14,6 @@ const Home = () => {
 
   useEffect(() => {
     async function loadClicks() {
-      console.log('getting total')
       const res = await fetch('/api/total');
 
       if (!res.ok) {   
@@ -28,9 +29,13 @@ const Home = () => {
   }, []);
   
   return (
-    <Container>
-      <Text>{totalDamage}</Text>
-      <Button onClick={onClick}>Qliq</Button>
+    <Container h='100%' pos='relative'>
+      <MenuButton />
+      <Flex direction='column' align='center' justify='center' h='100%'>
+        <Text>{totalDamage}</Text>
+        <Button onClick={onClick}>Qliq</Button>
+      </Flex>
+      <ChatWindow/>
     </Container>
   );
 };
