@@ -22,14 +22,14 @@ output "db_username" {
 }
 
 # DynamoDB Outputs
-output "click_logs_table_name" {
+output "clicks_table_name" {
   description = "Name of the DynamoDB Click Logs table"
-  value       = aws_dynamodb_table.click_logs.name
+  value       = aws_dynamodb_table.clicks.name
 }
 
-output "click_logs_table_arn" {
+output "clicks_table_arn" {
   description = "ARN of the DynamoDB Click Logs table"
-  value       = aws_dynamodb_table.click_logs.arn
+  value       = aws_dynamodb_table.clicks.arn
 }
 
 output "db_subnet_group" {

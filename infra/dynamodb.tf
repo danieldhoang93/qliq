@@ -1,4 +1,4 @@
-resource "aws_dynamodb_table" "click_logs" {
+resource "aws_dynamodb_table" "clicks" {
   name         = "Clicks"
   billing_mode = "PAY_PER_REQUEST"
 
@@ -15,38 +15,20 @@ resource "aws_dynamodb_table" "click_logs" {
     type = "S"
   }
 
-  # Additional attributes to allow projections (non-key)
   attribute {
-    name = "serverId"
+    name = "GSI1PK"
     type = "S"
   }
 
   attribute {
-    name = "teamId"
+    name = "GSI1SK"
     type = "S"
   }
 
-  attribute {
-    name = "channelId"
-    type = "S"
-  }
-
-  # Optional Global Secondary Indexes (to allow querying by server/team/channel)
   global_secondary_index {
-    name            = "ServerIndex"
-    hash_key        = "serverId"
-    projection_type = "ALL"
-  }
-
-  global_secondary_index {
-    name            = "TeamIndex"
-    hash_key        = "teamId"
-    projection_type = "ALL"
-  }
-
-  global_secondary_index {
-    name            = "ChannelIndex"
-    hash_key        = "channelId"
+    name            = "UserIndex"
+    hash_key        = "GSI1PK"
+    range_key       = "GSI1SK"
     projection_type = "ALL"
   }
 
