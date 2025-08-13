@@ -10,7 +10,7 @@ export default defineConfig({
     },
   ],
   use: {
-    browserName: 'chromium', // force Chromium
+    // browserName: 'chromium', // force Chromium
     headless: true, // always run headless
   },
   webServer: {
