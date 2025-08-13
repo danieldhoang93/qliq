@@ -21,10 +21,10 @@ jobs:
       - name: Install Playwright (Chromium + OS deps)
         run: npx playwright install chromium --with-deps
 
-      - name: Start dev server (Vite on :5173)
-        run: |
-          nohup npm run dev -- --host >/tmp/app.log 2>&1 &
-          npx wait-on http://localhost:5173
+      # - name: Start dev server (Vite on :5173)
+      #   run: |
+      #     nohup npm run dev -- --host >/tmp/app.log 2>&1 &
+      #     npx wait-on http://localhost:5173
 
       - name: Run Playwright tests
         run: npx playwright test
