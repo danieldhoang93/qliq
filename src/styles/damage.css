@@ -1,0 +1,23 @@
+.damage-overlay {
+  position: absolute; /* stays inside your Container */
+  inset: 0; /* covers full container */
+  pointer-events: none;
+}
+
+.damage-number {
+  position: absolute;
+  /* top: 0; */
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) scale(10); /* large start */
+  opacity: 0;
+  animation: fall-to-total 0.5s cubic-bezier(0.6, 0.05, 1, 0.9) forwards;
+}
+
+@keyframes fall-to-total {
+  to {
+    bottom: 0;
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}

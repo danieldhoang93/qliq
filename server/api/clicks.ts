@@ -1,16 +1,24 @@
-
 import express from 'express';
-import { getAllClicks } from 'server/services/clicks';
+import { totalForTeam, totalForServer } from 'server/services/clicks';
 
-export const clicksRouter = express.Router();
+const clicksRouter = express.Router();
 
-clicksRouter.get('/total', async (_req, res) => {
+clicksRouter.get('/total', async (req, res) => {
   try {
-    console.log('Fetching total clicks');
-    const total = await getAllClicks();
+    const serverId = req.query.serverId as string | undefined;
+    const teamId = req.query.teamId as string | undefined;
+
+    if (!serverId) {
+      return res.status(400).json({ error: 'serverId is required' });
+    }
+
+    const total = teamId ? await totalForTeam(serverId, teamId) : await totalForServer(serverId);
+
     res.json({ total });
   } catch (err) {
-    console.error('Error fetching clicks:', err);
-    res.status(500).json({ error: 'Failed to get clicks' });
+    console.error('Error fetching total:', err);
+    res.status(500).json({ error: 'Failed to get total' });
   }
 });
+
+export default clicksRouter;

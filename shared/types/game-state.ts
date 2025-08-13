@@ -1,16 +1,8 @@
-
-export type GameState = {
-  userId: string;
-  totalDamage: number;
-  damageEvents: DamageEvent[];
-  onQliq: (amount?: number, style?: string) => void;
-  setInitialTotalDamage: (total: number) => void;
-  incrementTotalDamage: (amount: number) => void;
-};
-
 export type DamageEvent = {
-  userId: string;
+  userId: number;
   amount: number;
+  serverId?: number;
+  teamId?: number | null;
   timestamp: number;
   style?: string;
 };

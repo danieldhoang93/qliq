@@ -1,11 +1,12 @@
-import { DamageEvent } from "shared/types/game-state";
+import { DamageEvent } from 'shared/types/game-state';
 
 // Message types sent from client to server
 export type ClientMessage =
   | { type: 'identify'; userId: string }
   | { type: 'click'; damageEvent: DamageEvent }
   | { type: 'join_team'; teamId: string }
-  | { type: 'update_attribute'; attribute: string; value: number };
+  | { type: 'update_attribute'; attribute: string; value: number }
+  | { type: 'join_server'; serverId: string };
 
 // Message types sent from server to client
 export type ServerMessage =

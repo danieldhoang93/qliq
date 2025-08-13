@@ -39,6 +39,8 @@ ios/.idea/
 infra/.terraform/
 *.tfstate*
 *.tfvars
+terraform.tfstate
+terraform.tfstate.backup
 .terraform.lock.hcl
 crash.log
 override.tf*
@@ -63,3 +65,11 @@ ehthumbs.db
 Icon?
 Desktop.ini
 
+# ========================
+# DB
+# ========================
+drizzle/*.json
+drizzle/meta/*
+server/db/generated/
+*.pem
+*.key
