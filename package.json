@@ -14,7 +14,9 @@
     "preview": "vite preview",
     "db:introspect": "npx dotenv -e .env drizzle-kit introspect",
     "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "test:docker": "docker run --rm -it -v \"$PWD:/work\" -w /work mcr.microsoft.com/playwright:v1.54.0-noble bash -lc 'npm ci && npx playwright install chromium --with-deps --only-shell && npx playwright test'",
+    "test:docker:serve": "docker run --rm -it -v \"$PWD:/work\" -w /work -p 3000:3000 mcr.microsoft.com/playwright:v1.54.0-noble bash -lc \"npm ci && npx playwright install chromium --with-deps --only-shell && (nohup npm run start >/tmp/app.log 2>&1 &) && npx wait-on http://localhost:3000 && npx playwright test\""
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.859.0",
@@ -39,6 +41,7 @@
   "devDependencies": {
     "@capacitor/cli": "^7.4.2",
     "@eslint/js": "^9.30.1",
+    "@playwright/test": "^1.54.2",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.0",
     "@types/pg": "^8.15.5",

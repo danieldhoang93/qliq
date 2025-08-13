@@ -1,0 +1,14 @@
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'], channel: 'chromium' },
+    },
+  ],
+  use: {
+    browserName: 'chromium', // force Chromium
+    headless: true, // always run headless
+  },
+});

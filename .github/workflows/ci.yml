@@ -1,16 +1,30 @@
-# .github/workflows/ci.yml
-name: CI
+name: Playwright Tests
+
 on:
+  workflow_dispatch: # manual run from Actions tab
   push:
-  pull_request:
-  workflow_dispatch: # ← add this
+    branches: [main]
+
 jobs:
-  e2e:
+  test:
     runs-on: ubuntu-latest
+
+    # container:
+    #   image: mcr.microsoft.com/playwright:v1.54.0-noble
+    #   options: --user 1001
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
-      - run: npm ci
-      - run: npx playwright install --with-deps
-      - run: npx playwright test --reporter=line
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers (only Chromium)
+        run: npx playwright install chromium --with-deps --only-shell
+
+      - name: Run Playwright tests
+        run: npx playwright test
