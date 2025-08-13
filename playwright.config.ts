@@ -13,9 +13,9 @@ export default defineConfig({
   },
   webServer: {
     // if Vite: add --host to avoid binding issues in CI
-    command: 'npm run dev -- --host',
-    url: 'http://localhost:5173',
-    timeout: 120_000,
-    reuseExistingServer: !process.env.CI,
+    // command: 'npm run dev -- --host',
+    // url: 'http://localhost:5173',
+    // timeout: 120_000,
+    // reuseExistingServer: !process.env.CI,
   },
 });
