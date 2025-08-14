@@ -46,7 +46,6 @@ crash.log
 override.tf*
 *_override.tf*
 *.dump
-*.sql
 
 # ========================
 # 🧠 System & IDE Files
@@ -68,8 +67,5 @@ Desktop.ini
 # ========================
 # DB
 # ========================
-drizzle/*.json
-drizzle/meta/*
-server/db/generated/
 *.pem
 *.key

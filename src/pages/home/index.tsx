@@ -1,6 +1,7 @@
 import { ChatWindow } from '@/components/chat/chat-window';
 import { DamageNumbers } from '@/components/damage-numbers';
 import { MenuButton } from '@/components/layout/menu';
+import { ServerAndTeamSelection } from '@/components/server-team-selection';
 import { gameState, onQliq, setInitialTotalDamage } from '@/stores/gameState';
 import { initializeServers, useServer } from '@/stores/server';
 import { updateUser, useUser } from '@/stores/user';
@@ -90,7 +91,11 @@ const Home = () => {
           onChange={onDamageChange}
         />
       </Flex>
-      <ChatWindow />
+
+      <Flex w="100%" direction="column" pos="absolute" bottom={0} left={0} pb="xl" gap="xs">
+        <ServerAndTeamSelection />
+        <ChatWindow />
+      </Flex>
     </Container>
   );
 };

@@ -16,20 +16,6 @@ export const servers = pgTable("servers", {
 	name: text().notNull(),
 });
 
-export const serverChannels = pgTable("server_channels", {
-	id: serial().primaryKey().notNull(),
-	serverId: integer("server_id").notNull(),
-	name: text().notNull(),
-}, (table) => [
-	index("idx_server_channels_server_id").using("btree", table.serverId.asc().nullsLast().op("int4_ops")),
-	foreignKey({
-			columns: [table.serverId],
-			foreignColumns: [servers.id],
-			name: "server_channels_server_id_fkey"
-		}).onDelete("cascade"),
-	unique("server_channels_server_id_name_key").on(table.serverId, table.name),
-]);
-
 export const teams = pgTable("teams", {
 	id: serial().primaryKey().notNull(),
 	serverId: integer("server_id").notNull(),
@@ -73,6 +59,7 @@ export const userTeamMemberships = pgTable("user_team_memberships", {
 	serverId: integer("server_id").notNull(),
 	joinedAt: timestamp("joined_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 }, (table) => [
+	index("idx_utm_team_id").using("btree", table.teamId.asc().nullsLast().op("int4_ops")),
 	index("idx_utm_user_server").using("btree", table.userId.asc().nullsLast().op("int4_ops"), table.serverId.asc().nullsLast().op("int4_ops")),
 	foreignKey({
 			columns: [table.userId],
@@ -100,8 +87,10 @@ export const chatMessages = pgTable("chat_messages", {
 	message: text().notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow().notNull(),
 }, (table) => [
-	index("idx_chat_server_created").using("btree", table.serverId.asc().nullsLast().op("timestamptz_ops"), table.createdAt.desc().nullsFirst().op("timestamptz_ops")),
-	index("idx_chat_team_created").using("btree", table.teamId.asc().nullsLast().op("int4_ops"), table.createdAt.desc().nullsFirst().op("int4_ops")),
+	index("idx_chat_server_created").using("btree", table.serverId.asc().nullsLast().op("int4_ops"), table.createdAt.desc().nullsFirst().op("int4_ops")),
+	index("idx_chat_server_created_desc").using("btree", table.serverId.asc().nullsLast().op("int8_ops"), table.createdAt.desc().nullsFirst().op("int8_ops"), table.id.desc().nullsFirst().op("int4_ops")).where(sql`(team_id IS NULL)`),
+	index("idx_chat_team_created").using("btree", table.teamId.asc().nullsLast().op("timestamptz_ops"), table.createdAt.desc().nullsFirst().op("timestamptz_ops")),
+	index("idx_chat_team_created_desc").using("btree", table.teamId.asc().nullsLast().op("int4_ops"), table.createdAt.desc().nullsFirst().op("timestamptz_ops"), table.id.desc().nullsFirst().op("int8_ops")).where(sql`(team_id IS NOT NULL)`),
 	foreignKey({
 			columns: [table.serverId],
 			foreignColumns: [servers.id],

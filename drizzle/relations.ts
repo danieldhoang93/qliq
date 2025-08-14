@@ -1,26 +1,18 @@
 import { relations } from "drizzle-orm/relations";
-import { servers, serverChannels, teams, users, userServerMemberships, userTeamMemberships, chatMessages } from "./schema";
-
-export const serverChannelsRelations = relations(serverChannels, ({one}) => ({
-	server: one(servers, {
-		fields: [serverChannels.serverId],
-		references: [servers.id]
-	}),
-}));
-
-export const serversRelations = relations(servers, ({many}) => ({
-	serverChannels: many(serverChannels),
-	teams: many(teams),
-	userServerMemberships: many(userServerMemberships),
-	userTeamMemberships: many(userTeamMemberships),
-	chatMessages: many(chatMessages),
-}));
+import { servers, teams, users, userServerMemberships, userTeamMemberships, chatMessages } from "./schema";
 
 export const teamsRelations = relations(teams, ({one, many}) => ({
 	server: one(servers, {
 		fields: [teams.serverId],
 		references: [servers.id]
 	}),
+	userTeamMemberships: many(userTeamMemberships),
+	chatMessages: many(chatMessages),
+}));
+
+export const serversRelations = relations(servers, ({many}) => ({
+	teams: many(teams),
+	userServerMemberships: many(userServerMemberships),
 	userTeamMemberships: many(userTeamMemberships),
 	chatMessages: many(chatMessages),
 }));
