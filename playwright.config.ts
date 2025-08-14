@@ -1,21 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'], channel: 'chromium' },
-    },
-  ],
+  testDir: 'src/tests/e2e',
+  testMatch: '**/*.spec.ts',
+
   use: {
-    browserName: 'chromium', // force Chromium
-    headless: true, // always run headless
+    ...devices['Desktop Chrome'],
+    channel: 'chromium', // new headless mode
+    headless: true,
+    baseURL: 'http://localhost:5173',
   },
+
   webServer: {
-    // if Vite: add --host to avoid binding issues in CI
     command: 'npm run dev -- --host',
     url: 'http://localhost:5173',
     timeout: 120_000,
-    // reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
   },
 });
